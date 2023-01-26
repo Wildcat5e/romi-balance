@@ -1,11 +1,14 @@
 package wildcat5e.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import wildcat5e.subsystems.Drivetrain;
 
 public class AutonomousBalance extends CommandBase {
-    /** Creates a new AutonomousBalance. */
-    public AutonomousBalance() {
+    private Drivetrain drivetrain;
+
+    public AutonomousBalance(Drivetrain drivetrain) {
         // Use addRequirements() here to declare subsystem dependencies.
+        this.drivetrain = drivetrain;
     }
 
     // Called when the command is initially scheduled.

@@ -45,6 +45,6 @@ public class DriveDistance extends CommandBase {
     @Override
     public boolean isFinished() {
         // Compare distance travelled from start to desired distance
-        return Math.abs(drive.getAverageDistanceInch()) >= distance;
+      return Math.abs((drive.leftEncoder.getDistance() + drive.rightEncoder.getDistance()) / 2.0) >= distance;
     }
 }

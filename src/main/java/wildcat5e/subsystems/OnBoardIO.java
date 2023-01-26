@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * (input) or Red LED (output) DIO 3 - Yellow LED (output only)
  */
 public class OnBoardIO extends SubsystemBase {
+    private static final double MESSAGE_INTERVAL = 1.0;
+
     private final DigitalInput  buttonA   = new DigitalInput(0);
     private final DigitalOutput yellowLed = new DigitalOutput(3);
 
@@ -24,17 +26,11 @@ public class OnBoardIO extends SubsystemBase {
     private final DigitalInput  buttonC;
     private final DigitalOutput redLed;
 
-    private static final double MESSAGE_INTERVAL = 1.0;
-    private              double nextMessageTime;
+    private double nextMessageTime;
 
-    public enum ChannelMode {
-        INPUT,
-        OUTPUT
-    }
+    public enum ChannelMode {INPUT, OUTPUT}
 
     /**
-     * Constructor.
-     *
      * @param dio1 Mode for DIO 1 (input = Button B, output = green LED)
      * @param dio2 Mode for DIO 2 (input = Button C, output = red LED)
      */

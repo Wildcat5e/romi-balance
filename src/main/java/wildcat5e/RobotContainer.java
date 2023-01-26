@@ -1,14 +1,13 @@
 package wildcat5e;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import wildcat5e.commands.ArcadeDrive;
+import wildcat5e.commands.AutonomousBalance;
 import wildcat5e.commands.AutonomousDistance;
 import wildcat5e.commands.AutonomousTime;
 import wildcat5e.subsystems.Drivetrain;
@@ -22,7 +21,6 @@ import wildcat5e.subsystems.OnBoardIO;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final Drivetrain drivetrain = new Drivetrain();
-    private final OnBoardIO  onboardIO  = new OnBoardIO(OnBoardIO.ChannelMode.INPUT, OnBoardIO.ChannelMode.INPUT);
 
     // Assumes a gamepad plugged into channel 0
     private final Joystick controller = new Joystick(0);
@@ -43,29 +41,13 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        // Configure the button bindings
-        configureButtonBindings();
-    }
-
-    /**
-     * Use this method to define your button->command mappings. Buttons can be created by instantiating a
-     * {@link GenericHID} or one of its subclasses ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}),
-     * and then passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    private void configureButtonBindings() {
-        // Default command is arcade drive. This will run unless another command
-        // is scheduled over it.
+        // Default command is arcade drive. This will run unless another command is scheduled over it.
         drivetrain.setDefaultCommand(getArcadeDriveCommand());
 
-        // Example of how to use the onboard IO
-        Trigger onboardButtonA = new Trigger(onboardIO::getButtonAPressed);
-        onboardButtonA
-                .onTrue(new PrintCommand("Button A Pressed"))
-                .onFalse(new PrintCommand("Button A Released"));
-
         // Setup SmartDashboard options
-        chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(drivetrain));
-        chooser.addOption("Auto Routine Time", new AutonomousTime(drivetrain));
+        chooser.setDefaultOption("Auto Balance", new AutonomousBalance(drivetrain));
+        chooser.addOption("Auto Distance", new AutonomousDistance(drivetrain));
+        chooser.addOption("Auto Time", new AutonomousTime(drivetrain));
         SmartDashboard.putData(chooser);
     }
 
@@ -84,7 +66,6 @@ public class RobotContainer {
      * @return the command to run in teleop
      */
     public Command getArcadeDriveCommand() {
-        return new ArcadeDrive(
-                drivetrain, () -> -controller.getRawAxis(1), () -> -controller.getRawAxis(2));
+        return new ArcadeDrive(drivetrain, () -> -controller.getRawAxis(1), () -> -controller.getRawAxis(2));
     }
 }
