@@ -28,7 +28,9 @@ public class AutonomousBalance extends CommandBase {
             System.out.println(pitch0);
         }
         hasClimbed |= climbing();
-        System.out.println(hasClimbed + " climbing: " + climbing() + " currentPitch: " + (currentPitch) + " delta: " + (currentPitch-pitch0));
+     
+        System.out.println(String.format("%b climbing %b, currentPitch %2.2f, delta %2.2f", 
+                           hasClimbed, climbing(), currentPitch, currentPitch-pitch0));
     
     }
 
